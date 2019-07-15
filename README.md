@@ -5,7 +5,7 @@ Java PoC of simple webserver.
 As resources I used official Java Docs and _StackOverflow_.
 I also used [https://github.com/kkanellis/http-server/](https://github.com/kkanellis/http-server/) as reference code for the file/MIME handling part.
 
-##BUILD AND RUN
+## BUILD AND RUN
 
 ```bash
 gradle build
