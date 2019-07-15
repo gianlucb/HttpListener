@@ -11,6 +11,7 @@ public class SimpleHttpListener {
     private Logger _logger;
     private int _port;
     private File _wwwroot;
+    private HttpServer _server;
 
     public SimpleHttpListener(int port, String wwwrootPath) throws Exception {
         _logger = Logger.getLogger(App.class.getName());
@@ -29,17 +30,23 @@ public class SimpleHttpListener {
     public void run() {
         try {
             _logger.info("SimpleHttpListener is starting on port " + _port);
-            HttpServer server;
+            _logger.info("WWWROOT is set to " + _wwwroot.getAbsolutePath());
+
             ExecutorService executor;
             InetSocketAddress addr = new InetSocketAddress(_port);
-            server = HttpServer.create(addr, 0);
-            server.createContext("/", new SimpleHttpHandler(_wwwroot));
+            _server = HttpServer.create(addr, 0);
+            _server.createContext("/", new SimpleHttpHandler(_wwwroot));
             executor = Executors.newCachedThreadPool();
-            server.setExecutor(executor);
-            server.start();
+            _server.setExecutor(executor);
+            _server.start();
             _logger.info("SimpleHttpListener is listening...");
         } catch (Exception ex) {
             _logger.warning(ex.getMessage());
         }
+    }
+
+    public void terminate() {
+        if (_server != null)
+            _server.stop(0);
     }
 }

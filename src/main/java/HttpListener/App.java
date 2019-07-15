@@ -8,7 +8,7 @@ public class App {
     public static void main(String[] args) {
 
         int port = 8080; // where to listen to
-        String wwwrootPath = "./wwwroot"; // base path of the web content
+        String wwwroot = "./wwwroot"; // base path of the web content
 
         try {
             // if present use the first arg as port number
@@ -16,9 +16,9 @@ public class App {
                 port = Integer.parseInt(args[0]);
 
             if (args.length >= 2)
-                wwwrootPath = args[1];
+                wwwroot = args[1];
 
-            SimpleHttpListener listener = new SimpleHttpListener(port, wwwrootPath);
+            SimpleHttpListener listener = new SimpleHttpListener(port, wwwroot);
             listener.run();
 
         } catch (Exception ex) {
