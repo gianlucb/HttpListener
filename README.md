@@ -20,5 +20,5 @@ Where _<PORT>_ is the listening port and _<BASE_WEB_ROOT>_ is the base folder wh
 For example on a Windows machine
 
 ```bash
-gradle run --args="8081 c:\\wwwroot"
+gradle run --args="8081 /home/user/wwwroot"
 ```

@@ -1,3 +1,11 @@
+/**
+* Open a socket in the specified TCP port and start listening for incoming client connections
+* Define a cached threadpool in order to run each request in a different thread (new only if necessary)
+*
+* @author  Gianluca Bertelli
+* @version 1.0
+* @since   2019-07-15 
+*/
 package HttpListener;
 
 import com.sun.net.httpserver.*;
@@ -27,6 +35,9 @@ public class SimpleHttpListener {
         }
     };
 
+    /**
+     * Open the server for listening
+     */
     public void run() {
         try {
             _logger.info("SimpleHttpListener is starting on port " + _port);
@@ -45,6 +56,9 @@ public class SimpleHttpListener {
         }
     }
 
+    /**
+     * Close the listening server
+     */
     public void terminate() {
         if (_server != null)
             _server.stop(0);

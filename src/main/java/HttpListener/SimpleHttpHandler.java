@@ -1,3 +1,12 @@
+/**
+* Real executor class, runs the code to handle an incoming HTTP request
+* This class is executed for each incoming call, via the Thread-Pool
+* Implements only the GET method and some pre-defined MIME types
+*
+* @author  Gianluca Bertelli
+* @version 1.0
+* @since   2019-07-15 
+*/
 package HttpListener;
 
 import com.sun.net.httpserver.*;
@@ -13,6 +22,12 @@ public class SimpleHttpHandler implements HttpHandler {
     private HashMap<String, String> _mimeTypes; // base MIME types table
     public static final String GENERIC_MIME_TYPE = "application/octet-stream";
 
+    /**
+     * Handle each incoming call and getting the requested resource from the disk
+     * 
+     * @param wwwroot the base path on disk where to look for content
+     * @throws Exception in case of invalid WWWROOT path
+     */
     public SimpleHttpHandler(File wwwroot) throws Exception {
         _logger = Logger.getLogger(App.class.getName());
 
@@ -39,13 +54,16 @@ public class SimpleHttpHandler implements HttpHandler {
 
     };
 
+    /**
+     * Method to handle the client request. If the request is for the root it
+     * returns the index.html file (if exists)
+     */
     @Override
     public void handle(HttpExchange req) throws IOException {
 
         long threadId = Thread.currentThread().getId();
 
-        // I handle only GET,HEAD,OPTIONS requests for sake of semplicity ignoring other
-        // methods
+        // I handle only GET requests for sake of semplicity ignoring other methods
 
         String method = req.getRequestMethod();
         if (!method.equals("GET")) {
@@ -70,6 +88,14 @@ public class SimpleHttpHandler implements HttpHandler {
         RespondWithFile(req, requestedResource);
     }
 
+    /**
+     * Check if the request's URI point to a valid file on the disk. If so return
+     * that file. It sets also the right MIME content type based on file extension
+     * 
+     * @param req      the client request
+     * @param filePath the file relative path
+     * @throws IOException in case of not existing or not able to read the file
+     */
     public void RespondWithFile(HttpExchange req, String filePath) throws IOException {
 
         File requestedFile = new File(_wwwroot.toPath() + File.separator + filePath).getCanonicalFile();

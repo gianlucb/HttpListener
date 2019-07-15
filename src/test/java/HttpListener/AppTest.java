@@ -1,20 +1,23 @@
+/**
+* Simple HTTP Listener tests
+*
+* @author  Gianluca Bertelli
+* @version 1.0
+* @since   2019-07-15 
+*/
+
 package HttpListener;
 
 import org.junit.Test;
 import org.junit.Rule;
 import static org.junit.Assert.*;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 import java.nio.file.Paths;
-import java.util.stream.Collectors;
 
-public class AppTest<HttpClient> {
+public class AppTest {
 
     private static final int PORT = 8081;
     private static final String WWWROOT = Paths.get("src", "test", "resources", "wwwroot").toString();
