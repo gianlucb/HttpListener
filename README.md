@@ -15,7 +15,7 @@ gradle build
 gradle run --args="<PORT> <BASE_WEB_ROOT>"
 ```
 
-Where _<PORT>_ is the listening port and _<BASE_WEB_ROOT>_ is the base folder where to serve files
+Where _"PORT"_ is the listening port and _"BASE_WEB_ROOT"_ is the base folder where to serve files
 
 For example on a Windows machine
 
