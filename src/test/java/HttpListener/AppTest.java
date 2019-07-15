@@ -129,4 +129,29 @@ public class AppTest {
         }
     }
 
+    @Test
+    public void loadTest() {
+
+        int maxRequests = 0;
+        for (; maxRequests < 1000; maxRequests++) {
+            assertTrue(GetResource());
+        }
+
+    }
+
+    private Boolean GetResource() {
+        try {
+            URL url = new URL(_baseAddress + "/zorba.jpg");
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("GET");
+            int status = con.getResponseCode();
+            if (status == HttpURLConnection.HTTP_OK)
+                return true;
+
+            return false;
+        } catch (Exception ex) {
+            return false;
+        }
+    }
+
 }
