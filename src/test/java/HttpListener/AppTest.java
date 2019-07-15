@@ -95,6 +95,7 @@ public class AppTest {
         }
     }
 
+    @Test
     public void downloadPNG() {
 
         try {
@@ -111,6 +112,7 @@ public class AppTest {
         }
     }
 
+    @Test
     public void downloadJPG() {
 
         try {

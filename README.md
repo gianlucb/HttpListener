@@ -22,3 +22,11 @@ For example on a Windows machine
 ```bash
 gradle run --args="8081 /home/user/wwwroot"
 ```
+
+## TESTS
+
+I implemented some basic unit tests
+
+```bash
+gradle test
+```
