@@ -28,20 +28,8 @@ public class AppTest {
 
     @Test
     public void shouldRespondGet() {
-
-        try {
-            // should respond with index.html
-            URL url = new URL(_baseAddress);
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setRequestMethod("GET");
-            int status = con.getResponseCode();
-            assertTrue(status == HttpURLConnection.HTTP_OK);
-        } catch (MalformedURLException mEx) {
-            // shoul not happen
-            fail();
-        } catch (Exception ex) {
-            fail(ex.getMessage());
-        }
+        // check with index.html
+        assertTrue(GetResource(""));
     }
 
     @Test
@@ -80,53 +68,17 @@ public class AppTest {
 
     @Test
     public void downloadPDF() {
-
-        try {
-            URL url = new URL(_baseAddress + "/cla.pdf");
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setRequestMethod("GET");
-            int status = con.getResponseCode();
-            assertTrue(status == HttpURLConnection.HTTP_OK);
-        } catch (MalformedURLException mEx) {
-            // shoul not happen
-            fail();
-        } catch (Exception ex) {
-            fail(ex.getMessage());
-        }
+         assertTrue(GetResource("cla.pdf"));
     }
 
     @Test
     public void downloadPNG() {
-
-        try {
-            URL url = new URL(_baseAddress + "/bradipo.png");
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setRequestMethod("GET");
-            int status = con.getResponseCode();
-            assertTrue(status == HttpURLConnection.HTTP_OK);
-        } catch (MalformedURLException mEx) {
-            // shoul not happen
-            fail();
-        } catch (Exception ex) {
-            fail(ex.getMessage());
-        }
+         assertTrue(GetResource("bradipo.png"));
     }
 
     @Test
     public void downloadJPG() {
-
-        try {
-            URL url = new URL(_baseAddress + "/zorba.jpg");
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setRequestMethod("GET");
-            int status = con.getResponseCode();
-            assertTrue(status == HttpURLConnection.HTTP_OK);
-        } catch (MalformedURLException mEx) {
-            // shoul not happen
-            fail();
-        } catch (Exception ex) {
-            fail(ex.getMessage());
-        }
+        assertTrue(GetResource("zorba.jpg"));
     }
 
     @Test
@@ -134,14 +86,14 @@ public class AppTest {
 
         int maxRequests = 0;
         for (; maxRequests < 1000; maxRequests++) {
-            assertTrue(GetResource());
+            assertTrue(GetResource("zorba.jpg"));
         }
 
     }
 
-    private Boolean GetResource() {
+    private Boolean GetResource(String resource) {
         try {
-            URL url = new URL(_baseAddress + "/zorba.jpg");
+            URL url = new URL(_baseAddress + "/" + resource);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
             int status = con.getResponseCode();
