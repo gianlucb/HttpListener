@@ -23,7 +23,7 @@ public class SimpleHttpHandler implements HttpHandler {
     public static final String GENERIC_MIME_TYPE = "application/octet-stream";
 
     /**
-     * Handle each incoming call and getting the requested resource from the disk
+     * Handle each incoming call. Search the requested resource from the disk
      * 
      * @param wwwroot the base path on disk where to look for content
      * @throws Exception in case of invalid WWWROOT path
@@ -37,7 +37,7 @@ public class SimpleHttpHandler implements HttpHandler {
         }
         _wwwroot = wwwroot;
 
-        // this is hardcode for sake of semplicity
+        // this is hardcoded for sake of semplicity
         // it should be read at runtime from a config file
         _mimeTypes = new HashMap<String, String>();
         _mimeTypes.put("html", "text/html");
@@ -55,7 +55,7 @@ public class SimpleHttpHandler implements HttpHandler {
     };
 
     /**
-     * Method to handle the client request. If the request is for the root it
+     * Method to handle the client request. If the request is for the root (/) it
      * returns the index.html file (if exists)
      */
     @Override
