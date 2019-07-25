@@ -1,6 +1,6 @@
 /**
 * Simple HTTP Listener that implements a static (file-based) web server
-* This implements only the GET method and some hard-coded MIME types
+* This implements only the GET and HEAD methods and some hard-coded MIME types
 *
 * @author  Gianluca Bertelli
 * @version 1.0

@@ -73,7 +73,7 @@ public class SimpleHttpRequest {
      */
     private void ParseRequestLine() throws Exception {
 
-        // the first line should be in the form METHOD - URI - VERSION
+        // the first line should be in the form METHOD (SP) URI (SP) VERSION
         // regex tested with https://www.freeformatter.com/java-regex-tester.html
         String requestLineRegEx = "(GET|POST|HEAD|OPTIONS|CONNECT|TRACE|DELETE|PUT)\\s+([^?\\s]+)((?:[?&][^&\\s]+)*)\\s+(HTTP/.*)";
 
