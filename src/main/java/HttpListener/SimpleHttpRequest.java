@@ -1,3 +1,13 @@
+/**
+* Represent a HTTP request. This class is able to understand if the request is valid (well-formed).
+* It also implements the logic to respond to the client, based on the METHOD requested
+* It currently implements only GET and HEAD methods 
+*
+* @author  Gianluca Bertelli
+* @version 1.0
+* @since   2019-07-25 
+*/
+
 package HttpListener;
 
 import java.io.BufferedReader;
@@ -53,18 +63,17 @@ public class SimpleHttpRequest {
     }
 
     /**
-     * Checks if the request is a valid HTTP . Validation is done using
+     * Checks if the request is a valid HTTP request. Validation is done using
      * https://tools.ietf.org/html/rfc2616 details. For semplicity this
      * implementation accepts only absolute URIs (not empty):
      * 
      * GET /path?querystring HTTP/1.1
      * 
-     * @param in the input stream sent by the client
-     * @throws IOException
+     * @throws Exception in case of malformed request
      */
     private void ParseRequestLine() throws Exception {
 
-        // the first line should be in the form VERB - URI - VERSION
+        // the first line should be in the form METHOD - URI - VERSION
         // regex tested with https://www.freeformatter.com/java-regex-tester.html
         String requestLineRegEx = "(GET|POST|HEAD|OPTIONS|CONNECT|TRACE|DELETE|PUT)\\s+([^?\\s]+)((?:[?&][^&\\s]+)*)\\s+(HTTP/.*)";
 
@@ -100,6 +109,11 @@ public class SimpleHttpRequest {
         return _method;
     }
 
+    /**
+     * Based on the requested METHOD sends back the response to the client
+     * 
+     * @throws Exception in case is not able to find/open the resource requested
+     */
     public void SendResponse() throws Exception {
 
         ParseRequestLine();
@@ -117,7 +131,6 @@ public class SimpleHttpRequest {
         }
 
         _output.flush();
-
         _input.close();
         _output.close();
     }
@@ -128,9 +141,9 @@ public class SimpleHttpRequest {
     }
 
     /**
-     * Check if the request's URI point to a valid file on the disk. If so set the
-     * right response status line and the right headers. It also set the correct
-     * MIME content type based on file extension
+     * Check if the request's URI (entity) point to a valid file on the disk. If so
+     * set the right response status line and the right headers. It also set the
+     * correct MIME content type based on file extension
      * 
      * @param includeEntity specify if the Entity must be sent as Body. For some
      *                      VERB (like HEAD) the body must not be present
