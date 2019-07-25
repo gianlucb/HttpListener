@@ -18,21 +18,28 @@ public class App {
         String wwwroot = "./wwwroot"; // base path of the web content
         Logger logger = Logger.getLogger(App.class.getName());
 
+        // if present use the first arg as port number
+        if (args.length >= 1)
+            port = Integer.parseInt(args[0]);
+
+        // if present use the second arg as base wwwroot
+        if (args.length >= 2)
+            wwwroot = args[1];
+
+        SimpleHttpListener listener = null;
+
         try {
-
-            // if present use the first arg as port number
-            if (args.length >= 1)
-                port = Integer.parseInt(args[0]);
-
-            // if present use the second arg as base wwwroot
-            if (args.length >= 2)
-                wwwroot = args[1];
-
             // input validation is done in the .ctor. Throws an exception in case of error
-            SimpleHttpListener listener = new SimpleHttpListener(port, wwwroot);
-            listener.run();
+            listener = new SimpleHttpListener(port, wwwroot);
+
+            Thread serverThread = new Thread(listener);
+            serverThread.start();
+            serverThread.wait();
 
         } catch (Exception ex) {
+            if (listener != null)
+                listener.interrupt();
+
             logger.warning(ex.getMessage());
         }
     }

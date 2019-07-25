@@ -12,14 +12,16 @@ import com.sun.net.httpserver.*;
 import java.io.*;
 import java.util.logging.*;
 import java.net.InetSocketAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.concurrent.*;
 
-public class SimpleHttpListener {
+public class SimpleHttpListener extends Thread {
 
     private Logger _logger;
     private int _port;
     private File _wwwroot;
-    private HttpServer _server;
+    private ServerSocket _serverSocket;
 
     public SimpleHttpListener(int port, String wwwrootPath) throws Exception {
         _logger = Logger.getLogger(App.class.getName());
@@ -38,20 +40,39 @@ public class SimpleHttpListener {
     /**
      * Open the server for listening
      */
+    @Override
     public void run() {
         try {
             _logger.info("SimpleHttpListener is starting on port " + _port);
             _logger.info("WWWROOT is set to " + _wwwroot.getAbsolutePath());
 
-            ExecutorService executor;
+            _serverSocket = new ServerSocket();
+
             InetSocketAddress addr = new InetSocketAddress(_port);
-            _server = HttpServer.create(addr, 0);
-            _server.createContext("/", new SimpleHttpHandler(_wwwroot));
-            executor = Executors.newCachedThreadPool();
-            _server.setExecutor(executor);
-            _server.start();
+            _serverSocket.bind(addr);
             _logger.info("SimpleHttpListener is listening...");
+
+            // using a "unbounded pool" of threads - they are created only when needed
+            ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newCachedThreadPool();
+
+            try {
+
+                while (true) {
+                    Socket clientSocket = _serverSocket.accept();
+
+                    SimpleHttpHandler requestHandler = new SimpleHttpHandler(_wwwroot, clientSocket);
+                    executor.submit(requestHandler);
+                }
+
+            } catch (Exception socketEx) {
+                _logger.severe(socketEx.getMessage());
+                if (_serverSocket != null) {
+                    _serverSocket.close();
+                }
+            }
+
         } catch (Exception ex) {
+
             _logger.warning(ex.getMessage());
         }
     }
@@ -59,8 +80,14 @@ public class SimpleHttpListener {
     /**
      * Close the listening server
      */
-    public void terminate() {
-        if (_server != null)
-            _server.stop(0);
+    @Override
+    public void interrupt() {
+        try {
+            if (_serverSocket != null) {
+                _serverSocket.close();
+            }
+        } catch (Exception ex) {
+            _logger.warning(ex.getMessage());
+        }
     }
 }
