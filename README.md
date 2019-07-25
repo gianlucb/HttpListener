@@ -32,3 +32,9 @@ The tests also check if MIME handling is done correctly
 ```bash
 gradle test
 ```
+
+## COMMENTS
+
+Theorically, because the server may access concurrently to the same disk resource it should "synch" concurrent threads with **locks**.
+Probably because this is using a cached threadpool and is accessing only with READ permissions seems it is working even without locks.
+Another optimization that might be implemented is a "**CACHE**". Instead of read from disk everytime it can use a _Memory Cache structure_ to speed up and avoid locking on the resources already read.
