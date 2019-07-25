@@ -160,7 +160,11 @@ public class SimpleHttpRequest {
         // checking if the requested file exists, 404 in negative case
         if (!requestedFile.exists()) {
             _logger.warning(_uri + " does not exist");
-            throw new Exception("404 - not found");
+            String statusLine = _version + " 404 Not Found\r\n";
+            _output.write(statusLine.getBytes());
+            // flush and close
+            _output.flush();
+
         } else {
             // resource exists - response 200
 
@@ -191,11 +195,12 @@ public class SimpleHttpRequest {
                     _output.write(buffer, 0, count);
                 }
                 fs.close();
-            }
 
-            // flush and close
-            _output.flush();
+                // flush and close
+                _output.flush();
+            }
         }
+
     }
 
     private String getFileExtension(String filename) {

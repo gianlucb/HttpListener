@@ -4,7 +4,7 @@ Java PoC of simple webserver.
 
 As resources I used official Java Docs and tips from _StackOverflow_.
 I also used [https://github.com/kkanellis/http-server/](https://github.com/kkanellis/http-server/) as reference code for the file/MIME handling part.
-For sake of simplicity, this example accepts only **GET** requests
+For sake of simplicity, this example accepts only **GET** and **HEAD** methods
 
 ## BUILD AND RUN
 
